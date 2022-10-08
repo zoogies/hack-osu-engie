@@ -30,7 +30,8 @@
 
     console.log(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`);
 
-    $: fetch(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`)
+    $: try {
+        fetch(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`)
             .then(res => res.json())
             .then(json => {
                 let obj = new Object();
@@ -47,6 +48,9 @@
 
                 data = obj;
             });
+    } catch(e) {
+        console.error(e);
+    }
 </script>
 
 <div class="container">
