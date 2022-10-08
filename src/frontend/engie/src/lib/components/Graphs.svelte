@@ -11,8 +11,8 @@
         useGrouping: false
     });
 
-    let formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth())}-${twoDigits(date.getDate())}`;
-    $: formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth())}-${twoDigits(date.getDate())}`
+    let formattedDate;
+    $: formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth() + 1)}-${twoDigits(date.getDate())}`
 
     let data = {};
 
@@ -53,7 +53,7 @@
     {#each stat_types as stat_type}
     <div class="graph">
         <h1>{stat_type[0].toUpperCase() + stat_type.substring(1)}</h1>
-        <p>{stat_type} - {data[stat_type].datasets[0].values.join(', ')}</p>
+        <!-- <p>{stat_type} - {data[stat_type].datasets[0].values.join(', ')}</p> -->
         <Chart data={data[stat_type]} type="line" />
     </div>
     {/each}

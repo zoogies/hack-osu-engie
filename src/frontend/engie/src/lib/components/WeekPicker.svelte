@@ -13,7 +13,7 @@
 
     function display(toFormat) {
         console.log(toFormat);
-        return `${toFormat.getMonth()}/${toFormat.getDate()}`;
+        return `${toFormat.getMonth() + 1}/${toFormat.getDate()}`;
     }
 
     function offset(diff) {

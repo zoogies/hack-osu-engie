@@ -78,6 +78,7 @@
 	a.selected {
 		font-weight: bold;
 		text-decoration: none;
+		cursor: default;
 	}
 
 	.uppermost {
