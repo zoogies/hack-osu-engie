@@ -1,9 +1,9 @@
 # imports
 import csv
 from distutils.command.build import build
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # create flask app
 app = Flask(__name__)
@@ -95,13 +95,14 @@ def sumdaily(stamp,building,building_type):
         else:
             totals["natural-gas"] += float(natural)
 
+    # return {stamp.strftime("%Y-%m-%d"):totals}
     return totals
 
 # function for getting every day data over an index
 def getall(start,days,building,type):
     thing = []
     for i in range(days):
-        thing.append(sumdaily(datetime(int(start.split("-")[0]),int(start.split("-")[1]),int(start.split("-")[2])),building,type))
+        thing.append(sumdaily(datetime(int(start.split("-")[0]),int(start.split("-")[1]),int(start.split("-")[2])) + timedelta(days=i),building,type))
     return thing
 
 # api
@@ -128,7 +129,7 @@ def api(building=None,stamp="None",range=None):
         
         # date = parser.parse("2017-01-01T12:00:00")
         stamp = getall(stamp,int(range),building,type)
-        return str(stamp)
+        return jsonify(stamp)
 
 # run the server on port 5000 locally
 if __name__ == '__main__':
