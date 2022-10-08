@@ -83,13 +83,15 @@
 
 	.uppermost {
 		background-color: #333;
+		/* background-color: #sB0B7BD; */
 		padding: 3px;
 		color: white;
 		text-align: center;
 	}
 
 	.controls {
-		background-color: #A0A0A0;
+		/* background-color: #A0A0A0; */
+		background-color: #CE0E3D;
 		padding: 50px;
 		display: flex;
 	}
