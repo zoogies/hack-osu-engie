@@ -17,10 +17,14 @@ normal = ["knowlton","recreation","denney","library","enarson"]
 types = ["steam","electricity","chilled-water","hot-water","total-consumption","natural-gas"]
 start = datetime(2017,1,2) # starting date for all data
 
-# optimization shit
-dorm_file = open("./dorm.csv", 'r')
-non_dorm_file = open("./non-dorm.csv", 'r')
-
+# open dorm csv
+with open("./dorm.csv") as dormcsv:
+    dormcsv = csv.DictReader(dormcsv)
+    dorm_data = list(dormcsv)
+# open norm csv
+with open("./non-dorm.csv") as normcsv:
+    normcsv = csv.DictReader(normcsv)
+    norm_data = list(normcsv)
 
 # normal functions
 
@@ -36,13 +40,9 @@ def sumdaily(stamp,building,building_type):
     
     # set the file based on type
     if(building_type == "residence"):
-        tmp = dorm_file
+        data = dorm_data
     else:
-        tmp = non_dorm_file
-    
-    # open csv
-    f = csv.DictReader(tmp)
-    data = list(f)
+        data = norm_data
 
     totals = {
         "steam":0,
@@ -55,8 +55,8 @@ def sumdaily(stamp,building,building_type):
 
     # for loop that iterates through data[diff] to data[diff] + 24 and totals in a list the different consumptions
     for i in range(24):
-        tmp = data[diff + i]
         print(diff,i,len(data))
+        tmp = data[diff + i]
 
         steam = tmp[building+" - Steam Consumption (kBTU)"]
         electricity = tmp[building+" - Electricity Consumption (kBTU)"]
