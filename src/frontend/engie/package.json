@@ -11,8 +11,11 @@
 		"@neoconfetti/svelte": "^1.0.0",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
-		"svelte": "^3.46.0",
+		"svelte": "^3.50.1",
 		"vite": "^3.1.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"svelte-frappe-charts": "^1.9.2"
+	}
 }
