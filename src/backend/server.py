@@ -1,6 +1,5 @@
 # imports
 import csv
-from distutils.command.build import build
 from flask import Flask, jsonify
 from flask_cors import CORS
 from datetime import datetime, timedelta
@@ -17,6 +16,8 @@ normal = ["knowlton","recreation","denney","library","enarson"]
 types = ["steam","electricity","chilled-water","hot-water","total-consumption","natural-gas"]
 start = datetime(2017,1,2) # starting date for all data
 
+# csv openings up here (way more optimized to just open once)
+
 # open dorm csv
 with open("./dorm.csv") as dormcsv:
     dormcsv = csv.DictReader(dormcsv)
@@ -26,13 +27,11 @@ with open("./non-dorm.csv") as normcsv:
     normcsv = csv.DictReader(normcsv)
     norm_data = list(normcsv)
 
-# normal functions
-
-# sum all the resouces in a day from the csv
+# function to sum all the resouces in a day from the csv
 def sumdaily(stamp,building,building_type):
     # difference in days
     diff = stamp - start
-    diff = diff.days * 24 # starting row
+    diff = diff.days * 24 # starting row (24 hours in a day)
     
     # if negative do not allow
     if(diff < 0):
@@ -44,6 +43,7 @@ def sumdaily(stamp,building,building_type):
     else:
         data = norm_data
 
+    # initialize a dict to store summed values
     totals = {
         "steam":0,
         "electricity":0,
@@ -55,9 +55,9 @@ def sumdaily(stamp,building,building_type):
 
     # for loop that iterates through data[diff] to data[diff] + 24 and totals in a list the different consumptions
     for i in range(24):
-        print(diff,i,len(data))
-        tmp = data[diff + i]
+        tmp = data[diff + i] # shift up our data range by current day offset
 
+        # get our different data our of the csv
         steam = tmp[building+" - Steam Consumption (kBTU)"]
         electricity = tmp[building+" - Electricity Consumption (kBTU)"]
         chilled = tmp[building+" - Chilled Water Consumption (kBTU)"]
@@ -65,42 +65,61 @@ def sumdaily(stamp,building,building_type):
         total = tmp[building+" - Total Energy Consumption (Cleaned) (kBTU)"]
         natural = tmp[building+" - Natural Gas Consumption (kBTU)"]
 
+        # extremely ugly disgusting chain of if statements for different cases (i could not think of a better way my brain is fried)
         if(steam == "null"):
             pass
         else:
-            totals["steam"] += float(steam)
+            value = float(steam)
+            if value < 0:
+                value = 0
+            totals["steam"] += value
 
         if(electricity == "null"):
             pass
         else:
-            totals["electricity"] += float(electricity)
+            value = float(electricity)
+            if value < 0:
+                value = 0
+            totals["electricity"] += value
 
         if(chilled == "null"):
             pass
         else:
-            totals["chilled-water"] += float(chilled)
+            value = float(chilled)
+            if value < 0:
+                value = 0
+            totals["chilled-water"] += value
 
         if(hot == "null"):
             pass
         else:
-            totals["hot-water"] += float(hot)
+            value = float(hot)
+            if value < 0:
+                value = 0
+            totals["hot-water"] += value
 
         if(total == "null"):
             pass
         else:
-            totals["total-consumption"] += float(total)
+            value = float(total)
+            if value < 0:
+                value = 0
+            totals["total-consumption"] += value
         
         if(natural == "null"):
             pass
         else:
-            totals["natural-gas"] += float(natural)
+            value = float(natural)
+            if value < 0:
+                value = 0
+            totals["natural-gas"] += value
 
     # return {stamp.strftime("%Y-%m-%d"):totals}
     return totals
 
 # function for getting every day data over an index
 def getall(start,days,building,type):
-    thing = []
+    thing = [] # i am creative at naming variables (but actually though what else would i call this)
     for i in range(days):
         thing.append(sumdaily(datetime(int(start.split("-")[0]),int(start.split("-")[1]),int(start.split("-")[2])) + timedelta(days=i),building,type))
     return thing
@@ -115,7 +134,8 @@ def api(building=None,stamp="None",range=None):
     # check if the passed building exists
     if building not in residence and building not in normal:
         return "Bad building",400
-    # granted our types and buildings are valid
+
+    # granted our building is valid
     else:
         # data starts jan 2nd 2017
         # if gived X date, it should be sum from ((days since jan 2 2017) * 24) to (((days since jan 2 2017) * 24) + 24) columns
@@ -126,10 +146,8 @@ def api(building=None,stamp="None",range=None):
         else:
             type = "normal"
 
-        
-        # date = parser.parse("2017-01-01T12:00:00")
-        stamp = getall(stamp,int(range),building,type)
-        return jsonify(stamp)
+        data = getall(stamp,int(range),building,type) # call the getall method to get data for every single day for this building in this range from a starting date
+        return jsonify(data) # return this data as a json
 
 # run the server on port 5000 locally
 if __name__ == '__main__':
