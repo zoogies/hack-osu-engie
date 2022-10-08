@@ -24,32 +24,39 @@
                 }
             ]
         };
+
+        return obj;
     });
+
+    console.log(data);
 
     console.log(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`);
 
-    onMount(async () => {
+    /*onMount(async () => {
         const res = await fetch(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`);
         const json = await res.json();
 
         let obj = new Object();
-        obj[stat_type] = {
-            labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
-            datasets: [
-                {
-                    values: res.map(day => day[stat_type])
-                }
-            ]
-        };
 
-        data = res;
-    });
+        for(let stat_type of stat_types)
+            obj[stat_type] = {
+                labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                datasets: [
+                    {
+                        values: res.map(day => day[stat_type])
+                    }
+                ]
+            };
+
+        data = obj;
+    });*/
 </script>
 
 <div class="container">
     {#each stat_types as stat_type}
     <div class="graph">
         <h1>{stat_type[0].toUpperCase() + stat_type.substring(1)}</h1>
+        <p>{data[stat_type].datasets[0].values.join(', ')}</p>
         <Chart data={data[stat_type]} type="line" />
     </div>
     {/each}
