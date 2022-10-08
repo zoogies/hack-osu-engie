@@ -11,52 +11,49 @@
         useGrouping: false
     });
 
-    const formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth())}-${twoDigits(date.getDate())}`;
+    let formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth())}-${twoDigits(date.getDate())}`;
+    $: formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth())}-${twoDigits(date.getDate())}`
 
-    let data = stat_types.map(stat_type => {
-        let obj = new Object();
+    let data = {};
 
-        obj[stat_type] = {
+    for (let i of stat_types)
+        data[i] = {
             labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
             datasets: [
                 {
                     values: [0, 0, 0, 0, 0, 0, 0]
                 }
             ]
-        };
+        }
 
-        return obj;
-    });
-
-    console.log(data);
+    
 
     console.log(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`);
 
-    /*onMount(async () => {
-        const res = await fetch(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`);
-        const json = await res.json();
+    $: fetch(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`)
+            .then(res => res.json())
+            .then(json => {
+                let obj = new Object();
 
-        let obj = new Object();
+                for(let stat_type of stat_types)
+                    obj[stat_type] = {
+                        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                        datasets: [
+                            {
+                                values: json.map(day => day[stat_type])
+                            }
+                        ]
+                    };
 
-        for(let stat_type of stat_types)
-            obj[stat_type] = {
-                labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
-                datasets: [
-                    {
-                        values: res.map(day => day[stat_type])
-                    }
-                ]
-            };
-
-        data = obj;
-    });*/
+                data = obj;
+            });
 </script>
 
 <div class="container">
     {#each stat_types as stat_type}
     <div class="graph">
         <h1>{stat_type[0].toUpperCase() + stat_type.substring(1)}</h1>
-        <p>{data[stat_type].datasets[0].values.join(', ')}</p>
+        <p>{stat_type} - {data[stat_type].datasets[0].values.join(', ')}</p>
         <Chart data={data[stat_type]} type="line" />
     </div>
     {/each}
