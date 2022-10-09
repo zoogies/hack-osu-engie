@@ -1,8 +1,8 @@
 FROM node:lts-alpine
 
-WORKDIR /
+WORKDIR /src/frontend
 
-COPY . ./
+COPY . .
 RUN cd engie && yarn install
 RUN cd engie && yarn build
 

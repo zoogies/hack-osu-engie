@@ -2,7 +2,7 @@
 import csv
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 # create flask app
 app = Flask(__name__)
@@ -124,8 +124,44 @@ def getall(start,days,building,type):
         thing.append(sumdaily(datetime(int(start.split("-")[0]),int(start.split("-")[1]),int(start.split("-")[2])) + timedelta(days=i),building,type))
     return thing
 
+@app.route('/api/average/<building>/<stamp>/<rng>')
+def weekaverage(building=None,stamp="None",rng=None):
+    # standardize parameters for comparing
+    building = building.lower()
+
+    # check if the passed building exists
+    if building not in residence and building not in normal:
+        return "Bad building",400
+    else:
+        if building in residence:
+            type = "residence"
+        else:
+            type = "normal"
+
+        thing = [] # i am copy pasting shit i give up
+        for i in range(int(rng)):
+            thing.append( sumdaily( datetime(int(stamp.split("-")[0]),int(stamp.split("-")[1]),int(stamp.split("-")[2])) + timedelta(days= 0-i),building,type ) )
+
+        data = thing
+        totals = {
+            "steam":0,
+            "electricity":0,
+            "chilled-water":0,
+            "hot-water":0,
+            "total-consumption":0,
+            "natural-gas":0,
+        }
+        for day in data:
+            for key in day:
+                totals[key] += day[key]
+
+        for key in totals:
+            totals[key] /= float(rng)
+
+        return jsonify(data) # return this data as a json
+
 # api
-# ex: api/busch/steam/2017-01-01/30 (y-m-d)
+# ex: api/busch/2017-01-01/30 (y-m-d)
 @app.route('/api/<building>/<stamp>/<range>')
 def api(building=None,stamp="None",range=None):
     # standardize parameters for comparing
@@ -152,13 +188,8 @@ def api(building=None,stamp="None",range=None):
 # Path for our main Svelte page
 @app.route("/")
 def base():
-    return send_from_directory('client/public', 'index.html')
-
-# Path for all the static files (compiled JS/CSS, etc.)
-@app.route("/<path:path>")
-def home(path):
-    return send_from_directory('client/public', path)
+    return "This is an api!" # debug purposes im losing my mind
 
 # run the server on port 5000 locally
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', use_reloader=True, port=5000, threaded=True, debug=True)
+    app.run(host='0.0.0.0', use_reloader=True, port=5050)
