@@ -31,7 +31,7 @@
         }
 
     $: try {
-        fetch(`http://127.0.0.1:5050/api/${building}/${formattedDate}/7`)
+        fetch(`https://engie.api.zoogies.live/api/${building}/${formattedDate}/7`)
             .then(res => res.json())
             .then(async json => {
                 let obj = new Object();
@@ -41,7 +41,7 @@
                     averageJSON[stat_type] = 0;
 
                 try {
-                    const average = await fetch(`http://127.0.0.1:5050/api/average/${building}/${formattedDate}/14`);
+                    const average = await fetch(`http://engie.api.zoogies.live/api/average/${building}/${formattedDate}/14`);
                     averageJSON = await average.json(); 
                 } catch(e) {
                     console.error(e);
