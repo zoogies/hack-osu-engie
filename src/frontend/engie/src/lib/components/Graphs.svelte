@@ -41,7 +41,7 @@
                     averageJSON[stat_type] = 0;
 
                 try {
-                    const average = await fetch(`http://engie.api.zoogies.live/api/average/${building}/${formattedDate}/14`);
+                    const average = await fetch(`https://engie.api.zoogies.live/api/average/${building}/${formattedDate}/14`);
                     averageJSON = await average.json(); 
                 } catch(e) {
                     console.error(e);
