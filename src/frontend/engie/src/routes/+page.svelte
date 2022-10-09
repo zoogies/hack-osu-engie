@@ -102,9 +102,12 @@
 
 	.controls {
 		/* background-color: #A0A0A0; */
+		width: 100vw;
 		background-color: #CE0E3D;
 		padding: 30px;
 		display: flex;
-		overflow: wrap;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

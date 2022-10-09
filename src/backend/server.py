@@ -158,7 +158,7 @@ def weekaverage(building=None,stamp="None",rng=None):
         for key in totals:
             totals[key] /= float(rng)
 
-        return jsonify(data) # return this data as a json
+        return jsonify(totals) # return this data as a json
 
 # api
 # ex: api/busch/2017-01-01/30 (y-m-d)

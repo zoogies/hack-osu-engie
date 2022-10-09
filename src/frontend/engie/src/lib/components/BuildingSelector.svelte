@@ -27,7 +27,7 @@
 
 <style>
     .container {
-        margin-left: auto;
+        justify-self: flex-end;
         height: 100%;
         display: flex;
         align-items: center;
@@ -44,7 +44,7 @@
         border-radius: 15px;
         cursor: pointer;
         transition: background .3s border-radius .3s;
-        margin-left: 20px;
+        margin: 10px;
     }
 
     button:hover {

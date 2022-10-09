@@ -37,8 +37,10 @@
 
 <div class="container">
     <h2>Week {display(date)}-{endTime}</h2>
-    <button on:click={minus} disabled={date <= min}>&lt;</button>
-    <button on:click={plus} disabled={date >= max}>&gt;</button>
+    <div style="display:flex:flex-wrap:wrap;align-items:center;">
+        <button on:click={minus} disabled={date <= min}>&lt;</button>
+        <button on:click={plus} disabled={date >= max}>&gt;</button>
+    </div>
 </div>
 
 <style>
@@ -46,6 +48,8 @@
         height: 100%;
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     h2 {
@@ -66,7 +70,7 @@
         border-radius: 10%;
         cursor: pointer;
         transition: background .3s;
-        margin-left: 20px;
+        margin: 5px;
     }
 
     button:not([disabled]):hover {
