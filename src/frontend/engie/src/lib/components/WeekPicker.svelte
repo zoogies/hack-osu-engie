@@ -52,6 +52,7 @@
         font-size: 3em;
         color: white;
         display: inline-block;
+        min-width: 350px;
     }
 
     button {
@@ -68,8 +69,15 @@
         margin-left: 20px;
     }
 
-    button:hover {
+    button:not([disabled]):hover {
         background-color: #000;
+        animation: CircleArrow .3s forwards;
+    }
+
+    @keyframes CircleArrow {
+        100% {
+            border-radius: 20%;
+        }
     }
 
     button:disabled {

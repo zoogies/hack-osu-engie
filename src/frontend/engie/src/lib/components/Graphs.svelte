@@ -56,7 +56,7 @@
     <div class="graph">
         <h1>{stat_type[0].toUpperCase() + stat_type.substring(1)}</h1>
         <!-- <p>{stat_type} - {data[stat_type].datasets[0].values.join(', ')}</p> -->
-        <Chart data={data[stat_type]} type="line" />
+        <Chart data={data[stat_type]} type="line" colors={['#CE0E3D']} />
     </div>
     {/each}
 </div>

@@ -2,6 +2,7 @@
 	import BuildingSelector from '$lib/components/BuildingSelector.svelte';
 	import Graphs from '$lib/components/Graphs.svelte';
 	import WeekPicker from '$lib/components/WeekPicker.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
 	const dorm_buildings = ['busch', 'baker', 'taylor', 'smith'];
 	const other_buildings = ['knowlton', 'recreation', 'denny', 'library', 'enarson'];
@@ -52,14 +53,17 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Engie Panel</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 <section>
 	<div class="uppermost">
-		<a on:click={() => switchBuildingType('dorm')} class="{mode === 'dorm' ? 'selected' : ''}">Dorm</a> | 
-		<a on:click={() => switchBuildingType('other')} class="{mode === 'other' ? 'selected' : ''}">Non-Dorm</a>
+		<div> { building[0].toUpperCase() + building.slice(1) } </div>
+		<div class="type-selector">
+			<a on:click={() => switchBuildingType('dorm')} class="{mode === 'dorm' ? 'selected' : ''}">Dorm</a> | 
+			<a on:click={() => switchBuildingType('other')} class="{mode === 'other' ? 'selected' : ''}">Non-Dorm</a>
+		</div>
 	</div>
 
 	<div class="controls">
@@ -67,6 +71,8 @@
 		<BuildingSelector buildings={buildings} on:chosen={switchBuilding} class="right" />
 	</div>
 	<Graphs building={building} date={date} />
+
+	<Footer />
 </section>
 
 <style>
@@ -87,12 +93,17 @@
 		padding: 3px;
 		color: white;
 		text-align: center;
+		display: flex;
+	}
+
+	.type-selector {
+		margin-left: auto;
 	}
 
 	.controls {
 		/* background-color: #A0A0A0; */
 		background-color: #CE0E3D;
-		padding: 50px;
+		padding: 30px;
 		display: flex;
 	}
 </style>

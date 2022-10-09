@@ -43,12 +43,19 @@
         bottom: 3px;
         border-radius: 15px;
         cursor: pointer;
-        transition: background .3s;
+        transition: background .3s border-radius .3s;
         margin-left: 20px;
     }
 
     button:hover {
         background-color: #000;
+        animation: CircleMain .3s forwards;
+    }
+
+    @keyframes CircleMain {
+        100% {
+            border-radius: 30px;
+        }
     }
 
     .buildings {
@@ -66,6 +73,16 @@
         font-size: 1.2rem;
         border-radius: 2px;
         margin: 15px 0 0 0;
+    }
+
+    .buildings button:hover {
+        animation: CircleBuildings .3s forwards;
+    }
+
+    @keyframes CircleBuildings {
+        100% {
+            border-radius: 4px;
+        }
     }
 
     h1 {
