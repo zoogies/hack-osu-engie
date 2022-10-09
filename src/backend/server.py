@@ -156,4 +156,4 @@ def base():
 
 # run the server on port 5000 locally
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', use_reloader=True, port=5550, threaded=True, debug=True)
+    app.run(host='0.0.0.0', use_reloader=True, port=5000, threaded=True, debug=True)

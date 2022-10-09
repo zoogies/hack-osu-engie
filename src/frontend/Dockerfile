@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 
-WORKDIR /
+WORKDIR /src/frontend
 
 COPY . .
 RUN cd engie && yarn install
