@@ -1,15 +1,15 @@
 <script>
     const tips = [
-        'A leak of one drop per second can cost $35 per year',
-        'Setting your water temperature too high can cost $50 per year',
-        'Keeping game consoles in ready mode can cost $23 per year',
-        'A desktop left idle can cost $75 per year',
-        'A laser printer left on can cost $130 per year',
-        'Never let the water run while shaving or brushing teeth',
-        'Never pour water down the drain when there may be another use for it—such as watering a plant or garden',
-        'Wash fruits and vegetables in a basin. Use a vegetable brush',
-        'Sweep driveways, sidewalks and steps rather than hosing off',
-        'Use natural light whenever possible'
+        'That a leak of one drop per second can cost $35 per year',
+        'That setting your water temperature too high can cost $50 per year',
+        'That keeping game consoles in ready mode can cost $23 per year',
+        'That a desktop left idle can cost $75 per year',
+        'That a laser printer left on can cost $130 per year',
+        'That you should never let the water run while shaving or brushing teeth',
+        'That you could use drain water for watering a plant or garden instead of draining',
+        'That you should wash fruits and vegetables in a basin using a vegetable brush',
+        'That you should sweep driveways, sidewalks and steps rather than hosing them off',
+        'That you should use natural light whenever possible'
     ];
 
     let index = Math.floor(Math.random() * tips.length);

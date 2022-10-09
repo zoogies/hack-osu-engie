@@ -156,7 +156,7 @@ def weekaverage(building=None,stamp="None",rng=None):
                 totals[key] += day[key]
 
         for key in totals:
-            totals[key] /= float(rng)
+            totals[key] = round(totals[key] / float(rng))
 
         return jsonify(totals) # return this data as a json
 

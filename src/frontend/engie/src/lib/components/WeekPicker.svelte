@@ -36,7 +36,7 @@
 </script>
 
 <div class="container">
-    <h2>Week {display(date)}-{endTime}</h2>
+    <h2>Week of {display(date)}-{endTime}</h2>
     <div style="display:flex:flex-wrap:wrap;align-items:center;">
         <button on:click={minus} disabled={date <= min}>&lt;</button>
         <button on:click={plus} disabled={date >= max}>&gt;</button>
