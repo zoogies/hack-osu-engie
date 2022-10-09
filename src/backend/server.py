@@ -125,7 +125,7 @@ def getall(start,days,building,type):
     return thing
 
 # api
-# ex: api/busch/steam/2017-01-01/30 (y-m-d)
+# ex: api/busch/2017-01-01/30 (y-m-d)
 @app.route('/api/<building>/<stamp>/<range>')
 def api(building=None,stamp="None",range=None):
     # standardize parameters for comparing
@@ -152,13 +152,8 @@ def api(building=None,stamp="None",range=None):
 # Path for our main Svelte page
 @app.route("/")
 def base():
-    return send_from_directory('client/public', 'index.html')
-
-# Path for all the static files (compiled JS/CSS, etc.)
-@app.route("/<path:path>")
-def home(path):
-    return send_from_directory('client/public', path)
+    return "This is an api!" # debug purposes im losing my mind
 
 # run the server on port 5000 locally
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', use_reloader=True, port=5000, threaded=True, debug=True)
+    app.run(host='127.0.0.1', use_reloader=True, port=5550, threaded=True, debug=True)

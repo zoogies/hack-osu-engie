@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /
 
-COPY . ./
+COPY . .
 RUN cd engie && yarn install
 RUN cd engie && yarn build
 
