@@ -7,22 +7,22 @@
         'A laser printer left on can cost $130 per year',
         'Never let the water run while shaving or brushing teeth',
         'Never pour water down the drain when there may be another use for it—such as watering a plant or garden',
-        'Wash fruits and vegetables in a basin. Use a vegetable brush.',
-        'Sweep driveways, sidewalks and steps rather than hosing off.',
+        'Wash fruits and vegetables in a basin. Use a vegetable brush',
+        'Sweep driveways, sidewalks and steps rather than hosing off',
         'Use natural light whenever possible'
     ];
 
-    let index;
+    let index = Math.floor(Math.random() * tips.length);
 
-    function setTip() {
-        let newIndex = Math.floor(Math.random() * tips.length);
-        if(newIndex === index)
-            return setTip();
-        index = newIndex;
+    function up() {
+        if (index >= tips.length - 1)
+            index = 0;
+        else
+            index++;
     }
 
-    setTip();
-    setInterval(setTip, 5000);
+    up();
+    setInterval(up, 5000);
 </script>
 
 <footer>
