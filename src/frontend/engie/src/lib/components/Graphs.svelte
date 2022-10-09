@@ -12,7 +12,8 @@
     });
 
     let formattedDate;
-    $: formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth() + 1)}-${twoDigits(date.getDate())}`
+    $: formattedDate = `${date.getFullYear()}-${twoDigits(date.getMonth() + 1)}-${twoDigits(date.getDate())}`;
+    
 
     let data = {};
 
@@ -22,24 +23,41 @@
             datasets: [
                 {
                     values: [0, 0, 0, 0, 0, 0, 0]
-                }
+                },
+                {
+                    values: [0, 0, 0, 0, 0, 0, 0]
+                },         
             ]
         }
 
-    console.log(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`);
-
     $: try {
-        fetch(`http://127.0.0.1:5000/api/${building}/${formattedDate}/7`)
+        fetch(`http://127.0.0.1:5050/api/${building}/${formattedDate}/7`)
             .then(res => res.json())
-            .then(json => {
+            .then(async json => {
                 let obj = new Object();
+                let averageJSON = new Object();
+
+                for (let stat_type of stat_types)
+                    averageJSON[stat_type] = 0;
+
+                try {
+                    const average = await fetch(`http://127.0.0.1:5050/api/average/${building}/${formattedDate}/14`);
+                    averageJSON = await average.json(); 
+                } catch(e) {
+                    console.error(e);
+                }
 
                 for(let stat_type of stat_types)
                     obj[stat_type] = {
                         labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
                         datasets: [
                             {
-                                values: json.map(day => day[stat_type])
+                                values: Array(7).fill(averageJSON[stat_type]),
+                                name: '2 Week Average'
+                            },
+                            {
+                                values: json.map(day => Math.round(day[stat_type] * 1e3) / 1e3),
+                                name: 'This Week'
                             }
                         ]
                     };
@@ -56,7 +74,7 @@
     <div class="graph">
         <h1>{stat_type[0].toUpperCase() + stat_type.substring(1)}</h1>
         <!-- <p>{stat_type} - {data[stat_type].datasets[0].values.join(', ')}</p> -->
-        <Chart data={data[stat_type]} type="line" colors={['#CE0E3D']} />
+        <Chart data={data[stat_type]} type="line" colors={['#B0B7BD', '#CE0E3D']} lineOptions="{{heatline: 1, hideDots: 1, regionFill: 1}}" />
     </div>
     {/each}
 </div>

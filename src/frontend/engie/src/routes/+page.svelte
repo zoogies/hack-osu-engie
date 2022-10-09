@@ -105,5 +105,6 @@
 		background-color: #CE0E3D;
 		padding: 30px;
 		display: flex;
+		overflow: wrap;
 	}
 </style>
